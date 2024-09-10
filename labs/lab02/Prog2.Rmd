@@ -184,11 +184,11 @@ not_sabrina = subset(billboard, artist != 'Sabrina Carpenter')
 
 ```
 
-You can also combine multiple conditions using `and` (&) or `or` (||)
+You can also combine multiple conditions using `and` (&) or `or` (|)
 
 ```{r}
 x = subset(billboard, artist != 'Sabrina Carpenter' & weeks_on_chart >=15)
-y = subset(billboard, artist != 'Sabrina Carpenter' || weeks_on_chart < 10)
+y = subset(billboard, artist != 'Sabrina Carpenter' | weeks_on_chart < 10)
 
 ```
 
