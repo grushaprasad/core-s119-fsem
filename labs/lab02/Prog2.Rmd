@@ -125,7 +125,7 @@ billboard$rank2 = c(6:13)
 
 #### Coding Q4
 
-Assign the average value in the column `weeks_on_chart` in `billboard` to a variable called `average`. Print "The difference between the maximum and average weeks on chart is [x]" where [x] is replaced by the difference between the values stored in the variables `maximum` and `average`. Make sure to use these two variables in your print statement! 
+Assign the average value in the column `rank` in `billboard` to a variable called `average`. Print "The difference between the maximum and average weeks on chart is [x]" where [x] is replaced by the difference between the values stored in the variables `maximum` and `average`. Make sure to use these two variables in your print statement! 
 
 ```{r}
 ## WRITE YOUR CODE BELOW THIS LINE
