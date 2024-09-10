@@ -1,0 +1,272 @@
+---
+title: "CORE S119 FA24 Prog 2"
+author: "Grusha Prasad"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+
+## Dataframes
+
+Dataframes in R are tables where each column is a collection of values. Each row can be thought of as a "data point". For example, the 1st value of all the collections become the 1st "data point". The 10th value of all the collections become the 10th data point, and so on. 
+
+The following code creates three different collections and puts them together in a data frame. 
+
+```{r}
+
+## Data taken from https://www.billboard.com/charts/hot-100/ week of September 7
+
+s = c('A Bar Song', 'Taste', 'Please Please Please', 'Espresso', 'I had some help', 'Die with a smile')
+
+a = c('Shaboozey', 'Sabrina Carpenter', 'Sabrina Carpenter', 'Sabrina Carpenter', 'Post Malone', 'Lady Gaga and Bruno Mars')
+
+w = c(20,1,12,20,16,2)
+
+billboard = data.frame(
+  song = s,  # assigning collection s to column called song
+  artist = a, # assigning collection a to column called artist
+  weeks_on_chart = w # assigning collection w to a column called weeks_on_chart
+)
+
+```
+
+
+#### Written Q1
+How many rows and columns do you think the dataframe billboard has? 
+
+**Answer**
+
+The following functions can help verify your answers
+
+```{r}
+
+print(length(billboard))
+print(nrow(billboard))
+print(colnames(billboard))
+
+```
+
+#### Written Q2
+What do you think the functions `length`,`nrow` and `colnames` do? 
+
+**Answer**
+
+
+## Accessing columns from dataframes
+
+You can access columns from a dataframe by using the "$" symbol. For example, the code below prints the values in the column `song`. 
+
+```{r}
+
+print(billboard$song)
+
+```
+
+
+#### Coding Q1
+
+Print the values in the column `artist` in the dataframe `billboard`
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Coding Q2
+
+Assign the maximum value in the column `weeks_on_chart` in `billboard` to a variable called `maximum`. Print "The maximum weeks on chart is [x]" where [x] is replaced by the value stored in the variable `maximum`. Make sure to use the variable in your print statement! 
+
+*Hint: Look at the paste() function from last class*
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Coding Q3
+
+Assign the average value in the column `weeks_on_chart` in `billboard` to a variable called `average`. Print "The difference between the maximum and average weeks on chart is [x]" where [x] is replaced by the difference between the values stored in the variables `maximum` and `average`. Make sure to use these two variables in your print statement! 
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+## Adding columns to dataframes
+
+You can also add columns to existing dataframes by using the "$" sign. For example, the following code adds a column called rank. 
+
+```{r}
+billboard$rank = c(1:6)
+```
+
+
+#### Written Q3
+Explain why the following code causes an error. 
+
+**Answer**
+
+```{r, error=TRUE}
+
+billboard$rank2 = c(6:13)
+
+```
+
+
+#### Coding Q4
+
+Assign the average value in the column `weeks_on_chart` in `billboard` to a variable called `average`. Print "The difference between the maximum and average weeks on chart is [x]" where [x] is replaced by the difference between the values stored in the variables `maximum` and `average`. Make sure to use these two variables in your print statement! 
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+You can also use values of existing columns to create new columns. For example, the following code adds two to each value of rank, and stores it in a variable called `rank2`
+
+```{r}
+
+billboard$rank2 = billboard$rank + 2
+
+```
+
+#### Coding Q5
+
+Create a variable called `days_on_chart` that stores the number of days that each song has been on the billboard. 
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+## Using conditionals in dataframes
+
+You can use conditionals to create new columns. When you do this, the conditional gets applied to every individual value in the column. For example, the following code creates a column called `sabrina` which holds TRUE if the song was by Sabrina Carpenter, or FALSE otherwise. 
+
+```{r}
+
+billboard$sabrina = ifelse(billboard$artist == 'Sabrina Carpenter', TRUE, FALSE)
+
+```
+
+
+#### Coding Q6
+
+Create a variable called `weeks_category` that stores the string '>=20' if a song has been on the billboard for 20 weeks or more, '>=10' if a song has been on the billboard for 10 weeks or more (but less than 20 weeks), and '< 10' otherwise. 
+
+*Hint: Look up the syntax for nested conditionals from last class*
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+## Creating subsets of dataframes
+
+Sometimes you want to look at only subsets of your dataframe. For example, you might want to look at only the songs which are NOT by Sabrina Carpenter. You can use the `subset()` function for that. 
+
+```{r}
+
+not_sabrina = subset(billboard, artist != 'Sabrina Carpenter')
+
+```
+
+You can also combine multiple conditions using `and` (&) or `or` (||)
+
+```{r}
+x = subset(billboard, artist != 'Sabrina Carpenter' & weeks_on_chart >=15)
+y = subset(billboard, artist != 'Sabrina Carpenter' || weeks_on_chart < 10)
+
+```
+
+#### Written Q4
+Describe what is stored in x and y, and explain why that is the case. 
+
+**Answer**
+
+#### Coding Q7
+
+Find the subset of the songs in the billboard dataframe which have either been on the billboard for greater than 15 weeks, or been on the billboard for less than 5 weeks. Assign this to a variable called `billboard_q7`
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+
+#### Coding Q8
+
+Find the subset of the songs in the billboard dataframe which have been on the billboard for greater than 15 weeks and have been on the billboard for less than 5 weeks. Assign this subset to a variable called `billboard_q8`
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Written Q5
+
+How many rows did the dataframe from Q8 have? Why does this make sense? 
+
+**Answer**
+
+
+All the things you can do with dataframes, you can do with subsets of dataframes. 
+
+#### Coding Q9
+
+Print the songs which have been on the billboard for greater than 15 weeks and have been on the billboard for less than 5 weeks (i.e., songs in the `billboard_q7` subset)
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Coding Q10
+
+Assign the average value in the column `weeks_on_chart` in the subset `billboard_q7` to a variable called `average`. Print "The difference between the maximum and average weeks on chart is [x]" where [x] is replaced by the difference between the values stored in the variables `maximum` and `average`. 
+ 
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+## Loading dataframes from existing datasets
+
+You can create dataframes from data stored in files. The following code loads the data from a file called "titanic.csv". Note: this assumes that the file is in the same folder as your code. 
+
+```{r}
+titanic = read.csv("titanic.csv")
+```
+
+## Putting it together (Homework)
+
+Using a combination of code and text, do the following: 
+
+1. Describe the titanic dataset: how many rows, how many columns, what are the columns?
+
+2. Investigate whether the number of women who survived is greater than the number of men who survived. 
+
+3. Investigate whether the proportion of women who survived is greater than the proportion of men who survived. 
+
+4. What are the average ages of the people who survived and did not survive? **Hint: you will notice that there are some NA values in the data which will make the entire average NA. To avoid this, use na.rm=TRUE). 
+
+5. What are the average fares of the people who survived and did not survive? **Hint: you will notice that there are some NA values in the data which will make the entire average NA. To avoid this, use na.rm=TRUE). 
+
+6. Based on your investigation above, discuss what factors you think might have affected a person's chance of survival, and what factors were not important. 
