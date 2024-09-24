@@ -1,0 +1,238 @@
+---
+title: "CORE S119 FA24 Prog 4"
+author: "Grusha Prasad"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+```{r}
+titanic = read.csv("titanic.csv")
+```
+
+## Basics of ggpplot
+
+`ggplot` is a function that takes in two things: 
+
+1. Dataframe
+2. Aesthetics (which specify things like axes colors etc)
+
+The function returns a `ggplot` object and you can add different properties to the object by using `+`. 
+
+The dataframe that you want to pass in should have as many rows as the datapoints that you want to plot. For example, consider this plot that compares the mean age of the men and women who survived. 
+
+```{r}
+
+titanic_summ = titanic %>%
+  filter(Survived==1) %>%
+  group_by(Sex) %>%
+  summarize(mean_age = mean(Age, na.rm=TRUE),
+            se = sd(Age, na.rm=TRUE)/sqrt(n()))
+
+ggplot(titanic_summ, aes(x = Sex, y= mean_age)) + 
+  geom_point() + ## adds points
+  geom_errorbar(aes(ymin=mean_age - 2*se,
+                    ymax=mean_age + 2*se),
+                width=0.2) ## adds errorbars
+
+
+```
+
+#### Written Q1
+What do you think would happen if you did not include the `geom_point()` line?  
+
+**Answer**
+
+
+#### Written Q2
+What do you think would happen if you set `width` in the `geom_errorbar` to be `1`?
+
+
+**Answer**
+
+
+
+
+You can also change the axes labels
+
+```{r}
+
+ggplot(titanic_summ, aes(x = Sex, y= mean_age)) + 
+  geom_point() + ## adds points
+  geom_errorbar(aes(ymin=mean_age - 2*se,
+                    ymax=mean_age + 2*se),
+                width=0.2) + ## adds errorbars
+   labs(title='Mean age of people who survived by Sex',
+        y= 'Age',
+        x= 'Sex') 
+
+
+```
+
+
+#### Coding Q1
+
+Change the y-axis to say 'Mean age' and the x axis label to be empty. Modify the title so it says "Mean age of people who survived on the titanic"
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+You can also change the color and shape of the points
+
+```{r}
+
+ggplot(titanic_summ, aes(x = Sex,
+                         y= mean_age,
+                         color=Sex,
+                         shape=Sex)) + 
+  geom_point() + ## adds points
+  geom_errorbar(aes(ymin=mean_age - 2*se,
+                    ymax=mean_age + 2*se),
+                width=0.2) + ## adds errorbars
+   labs(title='Mean age of people who survived by Sex',
+        y= 'Age',
+        x= 'Sex') 
+
+
+```
+
+#### Written Q3
+Consider the plot below. Describe what it is plotting and explain why it is different from the previous plot. 
+
+
+```{r}
+
+ggplot(titanic_summ, aes(x = Sex,
+                         y= mean_age,
+                         color=Sex,
+                         shape=Sex)) + 
+  geom_errorbar(aes(ymin=mean_age - 2*se,
+                    ymax=mean_age + 2*se),
+                width=0.2) + ## adds errorbars
+   labs(title='Mean age of people who survived by Sex',
+        y= 'Age',
+        x= 'Sex') 
+
+
+```
+
+#### Written Q4
+Consider the plot below. Describe what it is plotting and explain why it is different from the first plot. 
+
+
+```{r}
+
+ggplot(titanic, aes(x = Sex,
+                     y= Age)) + 
+  geom_point() + ## adds points
+   labs(y= 'Age',
+        x= 'Sex') 
+
+
+```
+
+## Facets and groups
+
+Sometimes we want to generate more complex plots in which we group by more than one variable. You can generate these either by grouping these variables together and/or by creating facets. For example, consider two ways of looking at the relationship between gender, age and class (i.e., first, second or third). 
+
+```{r}
+
+titanic_summ2 = titanic %>%
+  filter(Survived==1) %>%
+  group_by(Sex, Pclass) %>%
+  summarize(mean_age = mean(Age, na.rm=TRUE),
+            se = sd(Age, na.rm=TRUE)/sqrt(n())) %>%
+  mutate(Pclass = factor(Pclass)) # makes it non numeric
+
+
+```
+
+```{r}
+# Using facets
+
+ggplot(titanic_summ2, aes(x = Pclass,
+                         y= mean_age)) + 
+  geom_point() +
+  geom_errorbar(aes(ymin=mean_age - 2*se,
+                    ymax=mean_age + 2*se),
+                width=0.2) +
+  labs(title='Mean age of people who survived by Sex and class',
+        y= 'Age',
+        x= 'Passenger class') +
+  facet_grid(~Sex) 
+
+
+```
+
+```{r}
+# Using group
+ggplot(titanic_summ2, aes(x = Pclass,
+                         y= mean_age,
+                         color=Sex,
+                         shape=Sex)) + 
+  geom_point(position=position_dodge(0.5)) +
+  geom_errorbar(aes(ymin=mean_age - 2*se,
+                    ymax=mean_age + 2*se),
+                width=0.2,
+                position=position_dodge(0.5)) +
+  labs(title='Mean age of people who survived by Sex',
+        y= 'Age',
+        x= 'Fare') 
+
+## position dodge makes sure that there is space between the two points. 
+## Note you need to dodge both the point and errorbar
+
+```
+
+#### Coding Q2
+
+Create a plot where the x-axis is Sex and the facet is class
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+
+#### Coding Q3
+
+Create a plot where the x-axis is Sex and the grouping is class
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+
+#### Homework
+
+
+```{r}
+# Read about dataset here: https://vincentarelbundock.github.io/Rdatasets/doc/AER/HousePrices.html
+houses = read.csv("HousePrices.csv")
+
+```
+
+
+1. Generate a plot that compares the average price of houses with different number of bedrooms. 
+
+
+2.  Generate a plot that looks at how the price of the house changes with change in size. **Hint: Think here about whether you really need a summary or errorbars**
+
+3. Generate a plot that compare the average price of houses with different number of bedrooms in preferred and unpreferred locations. 
+
+
+4. Come up with a question you can answer from the dataset. Generate a plot that can answer this question. Justify why you chose the plot that you did. 
