@@ -1,0 +1,192 @@
+---
+title: "CORE S119 FA24 Prog 5"
+author: "Grusha Prasad"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+## Practice with binomial distribution
+
+
+#### Coding Q1
+
+You want to simulate data from a biased coin, which has 80% chance of getting heads. Say you ask 100 people to flip the coin 50 times each. Write code to generate data from these 100 people. Each data point should represent the number of heads each person got. 
+
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Coding Q2
+
+You want to simulate data from a biased coin, which has 30% chance of getting heads. You ask one person to flip the coin 1000 times. Write code that simulates data from this experiment. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+#### Coding Q3
+
+You take the same biased coin from above, and now you ask 1000 people to flip the coin 1 time. Write code that simulates data from this experiment. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Written Q1
+
+What is the difference between the outputs of `rbinom` in Coding Q2 and Q3?
+
+**Answer**
+
+
+
+## Practice with normal distribution
+
+
+#### Coding Q4
+
+Assume that people on average sleep for 7 hours with a standard deviation of 1.5 hours. Based on this, you want to simulate data on the amount of sleep that 20 individuals get over 200 days. For each individual you want one average sleep value.  Write code that will simulate this data. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+#### Coding Q5
+
+Instead of getting data from 20 individuals, you decide to collect longitudinal data from just one person. You collect data for 2 years and want to compute an average value for each week in the two years.  Write code that will simulate this data. This question uses the same assumptions about average sleep. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Written Q2
+
+What is the difference between the outputs of `rnorm` in Coding Q4 and Q5?
+
+**Answer**
+
+
+
+## Adding data to dataframes
+
+#### Written Q3
+
+Describe what the code below does. 
+
+**Answer**
+
+```{r}
+
+obs = c(10, 15, 2, 3, 8, 9, 15, 17)
+ids = paste('id', c(1:8))
+
+x = data.frame(observation = obs, id = ids)
+
+```
+
+#### Coding Q6
+
+Create 4 dataframes --- `coin1`, `coin2`, `sleep1`, `sleep2` --- which store the data you generated in coding questions 2,3,4 and 5. Each of these dataframes should have two columns: one for `id` and which has a unique value for each person and `val` which stores each data point. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+## Creating data with more than one grouping
+
+#### Coding Q7
+
+Say you want to simulate data from two coins: an unbiased coin which has a 50% chance of heads, and a biased coin which has a 17% chance of heads. You ask 100 people to flip both of these coins 50 times each. The code chunk below outlines the sequence of steps you need to take. Fill in the missing code.
+
+```{r}
+
+## Step 1: Simulate data from unbiased coin and store it in variable called coin1
+
+coin1 = c() ## CHANGE THIS LINE
+
+## Step 2: Simulate data from unbiased coin and store it in variable called coin2
+
+coin2 = c() ## CHANGE THIS LINE
+
+## Step 3: Put both of the data in one sequence
+
+coins = c(coin1, coin2)
+
+## Step 4: Create a variable for condition
+
+coin_type = rep(c('unbiased','biased'), each=length(coin1)) # can also be length(coin2)
+
+## Step 5: Create a variable for id
+
+id = rep(c(1:length(coin1)), each=2) # can also be length(coin2)
+
+## Step 6: Create a dataframe with three columns: coin_type, id and num_success (which stores the number of heads)
+
+## ADD CODE HERE
+
+
+```
+
+
+#### Written Q4
+
+Explain what the two lines of code above with `rep` are doing, and why it makes sense. 
+
+**Answer**
+
+#### Coding Q8
+
+Say you want to simulate sleep from two groups of people: the "children" group in which people get on average 10 hours with a standard deviation of 0.5 hours and the "adults" group in which people get on average 7 hours of sleep with standard deviation of 2 hours. For each group you want to simulate the average sleep over a year for 100 people. Write code that will simulate data from these two groups and put them together in one dataframe. Your dataframe should have three columns: `id`, `group` and `mean_sleep`. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+## Homework
+
+In the parity mind reading task, the extent to which the person whose mind is being read could influence the success of mind reading. For example, if someone believed that a could read their minds, they might subconsciously generate numbers in a predictable manner that the "mind-reader" could predict easily (e.g., always generate two odds, then one even). On the other than if someone did not believe in mind reading, they might try very hard to trick the "mind-reader". 
+
+1. Simulate data for three types of people: "believers" (where the probabilty of correct guess is 75%), "non-believers" (where probability of correct guess is 40%) and "neutral" (where probability of correct guess is 50%). Imagine the "mind reader" is guessing the parity of 100 numbers for 200 people in each group. 
+
+
+2. Plot the mean probability of correct guesses for each of the three groups. 
+
+
+3. Plot the probability distribution of correct guesses for each of the three groups in the smae plot. *Hint: Look into what happens if you specify color or fill when you are plotting the histogram*
+
+
+
+4. What do you observe about the distribution of correct guesses for the three groups? 
+
+
+
+
+
+
+
+
