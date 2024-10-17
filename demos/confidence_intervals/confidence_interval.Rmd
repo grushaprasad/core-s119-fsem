@@ -1,0 +1,105 @@
+---
+title: "Untitled"
+author: "Grusha Prasad"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Getting CI across 9 experiments
+
+```{r}
+
+cards = read.csv('cards.csv') %>%
+  gather(key="group", value = "points", starts_with("g")) 
+
+```
+
+```{r}
+
+ggplot(cards, aes(x=group, y=points)) + 
+  geom_point()
+
+```
+
+```{r}
+
+ggplot(cards, aes(x=points)) + 
+  geom_histogram(binwidth = 1)
+
+```
+
+```{r}
+
+cards_summ = cards%>%
+  group_by(group) %>%
+  summarise(mean_points = mean(points, na.rm=TRUE))
+
+```
+
+
+```{r}
+
+ggplot(cards_summ, aes(x=mean_points)) + 
+  geom_histogram(binwidth = 1)
+
+
+```
+
+
+```{r}
+
+quantile(cards_summ$mean_points, c(0.025, 0.975), na.rm=TRUE)
+
+quantile(cards_summ$mean_points, c(0.25, 0.75), na.rm=TRUE)
+
+## How could you get 90%, 80% and 50% CI? 
+
+```
+
+## Repeating experiments with bootstrapping 
+
+```{r}
+
+cards_all = read.csv('cards_allexp.csv') %>%
+  gather(key="group", value = "points", starts_with("g")) 
+
+```
+
+```{r}
+ggplot(cards_all, aes(x=group, y=points, color=X7)) + 
+  geom_point()
+
+```
+
+```{r}
+
+cards_all_summ = cards_all %>%
+  group_by(group, Experiment) %>%
+  summarise(mean_points=mean(points)) %>%
+  ungroup() %>%
+  group_by(group) %>%
+  summarise(lower = quantile(mean_points, c(0.025), na.rm=TRUE),
+            upper = quantile(mean_points, c(0.025), na.rm=TRUE),
+            mean = mean(mean_points, na.rm = TRUE))
+  
+```
+
+```{r}
+
+ggplot(cards_all_summ, aes(x=mean, y=group)) + 
+  geom_point() + 
+  geom_linerange(aes(xmin=lower, xmax=upper))
+
+```
+
+```{r}
+
+quantile(cards_all_summ$mean, c(0.025, 0.975), na.rm=TRUE)
+
+```
+
+
