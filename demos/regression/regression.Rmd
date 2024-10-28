@@ -1,0 +1,91 @@
+---
+title: "Regression"
+author: "Grusha Prasad"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+
+## One predictor
+
+### Generate some data 
+
+```{r}
+
+x = c(1:100)
+y1 = x*0.5 + rnorm(100, 0, 5)
+y2 = x*-2 + rnorm(100, 0, 5)
+y3 = rnorm(100, 0, 5)
+
+dat= data.frame(x=x,
+                y1=y1,
+                y2=y2,
+                y3=y3)
+
+```
+
+
+### Fit regression model
+
+Here is code that fits regression models for each of the three y values. What do you notice about the coefficient values and the p-values? Does this make sense? 
+
+```{r}
+
+fit1 = lm(y1 ~ x, data = dat)
+summary(fit1)
+
+```
+```{r}
+
+fit2 = lm(y2 ~ x, data = dat)
+summary(fit2)
+
+```
+
+```{r}
+
+fit3 = lm(y3 ~ x, data = dat)
+summary(fit3)
+
+```
+## Two predictors
+
+Here is code that will generate y values that are a combination of two predictors, x1 and x2. 
+
+```{r}
+
+x1 = c(1:100)
+x2 = rep(c(1, 0), times=50)
+
+y1 = x1*0.5 + x2*-20 + rnorm(100, 0, 5)
+y2 = x*-2 + x2*0.01 + rnorm(100, 0, 10)
+
+dat2= data.frame(x=x,
+                y1=y1,
+                y2=y2)
+
+```
+
+
+### Fit regression model
+
+Here is code that fits regression models with two predictors. What do you notice about the coefficient values and the p-values? Specifically consider p-value of x2 in fit5. Does this make sense? 
+```{r}
+
+fit4 = lm(y1 ~ x1 + x2, data=dat2)
+summary(fit4)
+
+```
+
+```{r}
+
+fit5 = lm(y2 ~ x1 + x2, data=dat2)
+summary(fit5)
+
+```
