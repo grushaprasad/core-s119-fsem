@@ -283,12 +283,12 @@ true_prop_diff = titanic_summ_wide$diff
 
 ```
 
-The code below now adds a column that checks whether the difference in each experiment was "more or as extreme" as the true prop difference. 
+The code below now adds a column that checks whether the difference in each null experiment was "more or as extreme" as the true prop difference. 
 
 ```{r}
 
 null_dist_wide = null_dist_wide %>%
-  mutate(extreme = ifelse(abs(diff) > abs(true_prop_diff), 1, 0))
+  mutate(extreme = ifelse(abs(diff) >= abs(true_prop_diff), 1, 0))
 
 ```
 
